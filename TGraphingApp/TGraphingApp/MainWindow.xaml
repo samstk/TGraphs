@@ -1,0 +1,50 @@
+﻿<Window x:Class="TGraphingApp.MainWindow"
+        x:Name="WindowInstance"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TGraphingApp" 
+        xmlns:command="clr-namespace:TGraphingApp.Commands"
+        xmlns:view="clr-namespace:TGraphingApp.Views"
+        mc:Ignorable="d"
+        Title="{Binding PreferredTitle, Mode=OneWay, RelativeSource={RelativeSource Mode=Self}}" Height="450" Width="800" Closing="WindowInstance_Closing">
+    <Window.CommandBindings>
+        <CommandBinding Command="command:MainWindowCommands.NewScene" CanExecute="Command_DefaultExecute" Executed="NewSceneCommand_Execute" />
+        <CommandBinding Command="command:MainWindowCommands.OpenScene" CanExecute="Command_DefaultExecute" Executed="OpenSceneCommand_Execute" />
+        <CommandBinding Command="command:MainWindowCommands.SaveScene" CanExecute="Command_DefaultExecute" Executed="SaveSceneCommand_Execute" />
+        <CommandBinding Command="command:MainWindowCommands.SaveSceneAs" CanExecute="Command_DefaultExecute" Executed="SaveSceneAsCommand_Execute" />
+        <CommandBinding Command="command:MainWindowCommands.ScrollIn" CanExecute="Command_DefaultExecute" Executed="ScrollIn_Execute" />
+        <CommandBinding Command="command:MainWindowCommands.ScrollOut" CanExecute="Command_DefaultExecute" Executed="ScrollOut_Execute" />
+    </Window.CommandBindings>
+    <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}">
+        <Menu DockPanel.Dock="Top" Height="20" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}">
+            <MenuItem Header="Scene">
+                <MenuItem Header="New" Command="command:MainWindowCommands.NewScene" />
+                <MenuItem Header="Open" Command="command:MainWindowCommands.OpenScene" />
+                <MenuItem Header="Save" Command="command:MainWindowCommands.SaveScene" />
+                <MenuItem Header="Save as.." Command="command:MainWindowCommands.SaveSceneAs" />
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="Undo" Command="command:MainWindowCommands.Undo" />
+                <MenuItem Header="Redo" Command="command:MainWindowCommands.Redo" />
+            </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem Header="Scroll In" Command="command:MainWindowCommands.ScrollIn"></MenuItem>
+                <MenuItem Header="Scroll Out" Command="command:MainWindowCommands.ScrollOut"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="About"></MenuItem>
+            <MenuItem Header="Help"></MenuItem>
+        </Menu>
+        <Grid Background="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" Margin="0 1 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="250" Width="250" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <view:SceneView x:Name="ViewScene" Grid.Column="0" VerticalAlignment="Stretch" DataContext="{Binding CurrentScene}" />
+            <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" Width="3" Background="#DDDDDD" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" />
+            <view:GraphView x:Name="ViewGraph" Grid.Column="2" VerticalAlignment="Stretch" />
+        </Grid>
+    </DockPanel>
+</Window>

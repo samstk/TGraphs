@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="TGraphingApp.Components.InstanceList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TGraphingApp.Components"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="250">
+    <StackPanel HorizontalAlignment="Stretch">
+        <ItemsControl ItemsSource="{Binding}" HorizontalAlignment="Stretch">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <local:InstanceListItem DataContext="{Binding}"></local:InstanceListItem>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Button 
+                x:Name="AddItemButton" 
+                Content="Add New Instance / Expression" FontWeight="Bold" 
+                Click="AddItemButton_Click">
+        </Button>
+    </StackPanel>
+</UserControl>
