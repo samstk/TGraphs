@@ -130,7 +130,7 @@ namespace TGraphingApp.Models
         /// <summary>
         /// The step between min and max for rendering
         /// </summary>
-        public double TRenderStep { get; set; } = 1.0;
+        public double TRenderStep { get; set; } = 0.05;
 
         [JsonIgnore()]
         public int RenderingPoints

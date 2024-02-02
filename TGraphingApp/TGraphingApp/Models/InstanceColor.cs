@@ -14,7 +14,10 @@ namespace TGraphingApp.Models
     /// </summary>
     public sealed class InstanceColor
     {
-        public byte R, G, B;
+        public byte R { get; set; }
+        public byte G { get; set; }
+
+        public byte B { get; set; }
 
         /// <summary>
         /// The common color representation of this color.

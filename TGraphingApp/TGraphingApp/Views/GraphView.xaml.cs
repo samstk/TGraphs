@@ -216,7 +216,7 @@ namespace TGraphingApp.Views
                     }
                     catch
                     {
-                        DrawErrorMessage("Error on Instance -- " + instance.Name + "\r\nUnable to draw path. Check to make sure function does not mix types.");
+                        DrawErrorMessage("Error on Instance -- " + instance.Name + "\r\nUnable to draw path. Check to make sure function does not mix types and returns a double or a tuple of a double.");
                         break;
                     }
                 }
