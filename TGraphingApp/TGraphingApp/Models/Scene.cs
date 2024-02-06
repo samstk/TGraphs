@@ -12,7 +12,7 @@ namespace TGraphingApp.Models
     /// A scene which contains one or more instances to be displayed
     /// on a graph.
     /// </summary>
-    public class Scene : ICloneable
+    public class Scene
     {
         /// <summary>
         /// The expression instances of the scene.
@@ -63,13 +63,13 @@ namespace TGraphingApp.Models
         /// The starting 'y' value that
         /// is displayed on the graph.
         /// </summary>
-        public double DesignViewMinY { get; set; } = -1;
+        public double DesignViewMinY { get; set; } = 10;
 
         /// <summary>
         /// The end 'y' value that
         /// is displayed on the graph.
         /// </summary>
-        public double DesignViewMaxY { get; set; } = 10;
+        public double DesignViewMaxY { get; set; } = -10;
 
         /// <summary>
         /// The number of points on the x-axis (grid)
@@ -144,22 +144,42 @@ namespace TGraphingApp.Models
 
         public InstanceColor DesignGridLineColor { get; set; } = Colors.Gray;
 
+
         /// <summary>
-        /// Clones an exact copy of this scene.
+        /// The minimum t-value for this instance.
         /// </summary>
-        /// <remarks>
-        /// Snapshots are not copied and must be handled seperately if the data
-        /// should persist.
-        /// </remarks>
-        /// <returns>An exact copy of this scene</returns>
-        public object Clone()
+        public double TMin { get; set; } = 0.0;
+
+        /// <summary>
+        /// The maximum t-value for this instance.
+        /// </summary>
+        public double TMax { get; set; } = 10.0;
+
+        /// <summary>
+        /// The t-value that is moved up every second.
+        /// </summary>
+        public double TStep { get; set; } = 1.0;
+
+        /// <summary>
+        /// The current t-value of the scene.
+        /// </summary>
+        public double TCurrentValue { get; set; } = 0.0;
+
+        /// <summary>
+        /// The step between min and max for rendering
+        /// </summary>
+        public double TRenderStep { get; set; } = 0.05;
+
+        /// <summary>
+        /// The distance between the min and max t-values.
+        /// </summary>
+        [JsonIgnore()]
+        public double TDistance
         {
-            Scene scene = new Scene();
-            scene.Instances = scene.Instances.Select(instance => (Instance)instance.Clone()).ToList();
-            scene.Name = Name;
-            scene.FilePath = FilePath;
-            scene.IsSaved = IsSaved;
-            return scene;
-        }  
+            get
+            {
+                return Math.Abs(TMax - TMin);
+            }
+        }
     }
 }

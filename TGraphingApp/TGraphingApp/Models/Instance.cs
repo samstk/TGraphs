@@ -24,7 +24,7 @@ namespace TGraphingApp.Models
     /// on the shared graph. The instance contains an expression
     /// which is to be calculated for all visible points on the graph.
     /// </summary>
-    public class Instance : ICloneable
+    public class Instance
     {
         /// <summary>
         /// The name of the instance for reference purposes.
@@ -79,7 +79,6 @@ namespace TGraphingApp.Models
         public InstanceColor DesignColor { get; set; } = Colors.SkyBlue;
 
 
-
         /// <summary>
         /// The type of cursor displayed at the current parameter
         /// </summary>
@@ -89,7 +88,7 @@ namespace TGraphingApp.Models
         /// The 'diameter' of the cursor displayed at the current parameter. If the cursor type is a box, then this
         /// represents the width of the box.
         /// </summary>
-        public int DesignCursorSize = 4;
+        public int DesignCursorSize { get; set; } = 8;
 
         /// <summary>
         /// The type of plot line displayed at all visible parameters.
@@ -99,66 +98,26 @@ namespace TGraphingApp.Models
         /// <summary>
         /// The thickness of the plot line displayed at all visible parameters.
         /// </summary>
-        public int DesignPlotSize = 2;
+        public int DesignPlotSize { get; set; } = 2;
 
         /// <summary>
-        /// The x-values that this instance will cull
+        /// Calculates the number of rendering points for this instance
+        /// based on the scene.
         /// </summary>
-        public int DesignDomainMin = 0;
-
-        /// <summary>
-        /// The x-values that this instance will cull
-        /// </summary>
-        public int DesignDomainMax = 0;
-
-
-        /// <summary>
-        /// The minimum t-value for this instance.
-        /// </summary>
-        public double TMin { get; set; } = 0.0;
-
-        /// <summary>
-        /// The maximum t-value for this instance.
-        /// </summary>
-        public double TMax { get; set; } = 10.0;
-
-        /// <summary>
-        /// The t-value that is moved up in seconds.
-        /// </summary>
-        public double TStep { get; set; } = 1.0;
-
-        /// <summary>
-        /// The step between min and max for rendering
-        /// </summary>
-        public double TRenderStep { get; set; } = 0.05;
-
-        [JsonIgnore()]
-        public int RenderingPoints
+        /// <param name="scene">The scene which holds this instance.</param>
+        /// <returns>The number of rendering points</returns>
+        public int GetNumberOfRenderingPoints(Scene scene)
         {
-            get
-            {
-                if (TRenderStep == 0)
-                    return 0;
+            if (scene.TRenderStep == 0)
+                return 0;
 
-                int amount = (int)(TDistance / TRenderStep) + 1;
+            int amount = (int)(scene.TDistance / scene.TRenderStep) + 1;
 
-                if (amount > TGraphInstanceScripting.MAX_RENDER_POINTS)
-                    amount = TGraphInstanceScripting.MAX_RENDER_POINTS;
+            if (amount > TGraphInstanceScripting.MAX_RENDER_POINTS)
+                amount = TGraphInstanceScripting.MAX_RENDER_POINTS;
 
-                return amount;
-            }
-        }
+            return amount;
 
-        /// <summary>
-        /// The distance between the min and max t-values.
-        /// </summary>
-        [JsonIgnore()]
-        public double TDistance
-        {
-            get
-            {
-                return Math.Abs(TMax - TMin);
-            }
         }
         #endregion
 
@@ -270,9 +229,9 @@ namespace TGraphingApp.Models
         /// <returns>
         /// An array of results from the instance expression block.
         /// </returns>
-        public (double[], object[]) CalculateRenderingPoints()
+        public (double[], object[]) CalculateRenderingPoints(Scene scene)
         {
-            int renderingPoints = RenderingPoints;
+            int renderingPoints = GetNumberOfRenderingPoints(scene);
 
             double[] tValues = new double[renderingPoints];
 
@@ -280,22 +239,12 @@ namespace TGraphingApp.Models
             {
                 double perc = i / (double)(tValues.Length - 1);
 
-                tValues[i] = TMin + (TMax - TMin) * perc;
+                tValues[i] = scene.TMin + (scene.TMax - scene.TMin) * perc;
             }
 
-            return (tValues, CalculateForAll(tValues));
-        }
-        
-        /// <summary>
-        /// Clones an exact copy of the instance.
-        /// </summary>
-        /// <returns>An exact copy of this instance.</returns>
-        public object Clone()
-        {
-            return new Instance()
-            {
-                Expression = Expression
-            };
+            object[] results = CalculateForAll(tValues);
+
+            return (tValues, results);
         }
     }
 }

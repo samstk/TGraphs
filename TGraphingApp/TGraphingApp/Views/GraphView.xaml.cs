@@ -129,11 +129,14 @@ namespace TGraphingApp.Views
             GraphCanvas.Children.Add(block);
         }
 
+        private static DoubleCollection DottedLineDash => new DoubleCollection(new double[] { 3, 3 });
+        private static DoubleCollection PointDash => new DoubleCollection(new double[] { 1, 1 });
+
         private void DrawInstances()
         {
             foreach(Instance instance in ReferenceScene.Instances)
             {
-                (double[] tValues, object[] points) = instance.CalculateRenderingPoints();
+                (double[] tValues, object[] points) = instance.CalculateRenderingPoints(ReferenceScene);
                 
                 if (instance.CompiledMessage != null)
                 {
@@ -212,6 +215,15 @@ namespace TGraphingApp.Views
                                 }
                             );
 
+                        if (instance.DesignPlotType == InstancePlotType.DottedLine)
+                        {
+                            drawingPath.StrokeDashArray = DottedLineDash;
+                        }
+                        else if (instance.DesignPlotType == InstancePlotType.Points)
+                        {
+                            drawingPath.StrokeDashArray = PointDash;
+                        }
+
                         GraphCanvas.Children.Add(drawingPath);
                     }
                     catch
@@ -219,6 +231,63 @@ namespace TGraphingApp.Views
                         DrawErrorMessage("Error on Instance -- " + instance.Name + "\r\nUnable to draw path. Check to make sure function does not mix types and returns a double or a tuple of a double.");
                         break;
                     }
+                }
+
+                Point currentPosition = new Point(0, 0);
+
+                object[] currentPoint = instance.CalculateForAll(new double[] { ReferenceScene.TCurrentValue });
+
+                if (currentPoint.Length > 0)
+                {
+                    if (currentPoint[0] is double)
+                    {
+                        double p1 = (double)currentPoint[0];
+                        currentPosition = TGraphMath.CalculateActualPositionOfValuesBetweenPoints(
+                                    ReferenceScene.TCurrentValue, p1,
+                                    ReferenceScene.DesignViewMinX, ReferenceScene.DesignViewMaxX,
+                                    ReferenceScene.DesignViewMinY, ReferenceScene.DesignViewMaxY,
+                                    RenderWidth, RenderHeight
+                                );
+                    }
+                    else if (currentPoint[0] is (double, double))
+                    {
+                        (double, double) p1 = ((double, double))currentPoint[0];
+                        currentPosition = TGraphMath.CalculateActualPositionOfValuesBetweenPoints(
+                                    p1.Item1, p1.Item2,
+                                    ReferenceScene.DesignViewMinX, ReferenceScene.DesignViewMaxX,
+                                    ReferenceScene.DesignViewMinY, ReferenceScene.DesignViewMaxY,
+                                    RenderWidth, RenderHeight
+                                );
+                    }
+                }
+
+                if (instance.DesignCursorType == InstanceCursorType.Circle)
+                {
+                    Ellipse ellipse = new Ellipse()
+                    {
+                        Fill = instance.DesignFill,
+                        Width = instance.DesignCursorSize,
+                        Height = instance.DesignCursorSize
+                    };
+
+                    Canvas.SetLeft(ellipse, currentPosition.X - instance.DesignCursorSize / 2);
+                    Canvas.SetTop(ellipse, currentPosition.Y - instance.DesignCursorSize / 2);
+
+                    GraphCanvas.Children.Add(ellipse);
+                }
+                else if (instance.DesignCursorType == InstanceCursorType.Box)
+                {
+                    Rectangle rect = new Rectangle()
+                    {
+                        Fill = instance.DesignFill,
+                        Width = instance.DesignCursorSize,
+                        Height = instance.DesignCursorSize
+                    };
+
+                    Canvas.SetLeft(rect, currentPosition.X - instance.DesignCursorSize / 2);
+                    Canvas.SetTop(rect, currentPosition.Y - instance.DesignCursorSize / 2);
+
+                    GraphCanvas.Children.Add(rect);
                 }
             }
         }

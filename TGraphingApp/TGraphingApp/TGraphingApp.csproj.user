@@ -13,6 +13,9 @@
     <Compile Update="Components\InstanceListItem.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Components\Timebar.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\SceneView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -25,6 +28,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Components\InstanceListItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Components\Timebar.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">

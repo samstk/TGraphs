@@ -44,6 +44,13 @@ namespace TGraphingApp.Models
             color.R, color.G, color.B
             );
 
+        public static implicit operator InstanceColor(System.Drawing.Color color) => new InstanceColor(
+             color.R, color.G, color.B
+            );
+
         public static implicit operator Color(InstanceColor color) => color.CommonColor;
+
+        public static implicit operator System.Drawing.Color(InstanceColor color) =>
+            System.Drawing.Color.FromArgb(color.R, color.G, color.B);
     }
 }

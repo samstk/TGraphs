@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="TGraphingApp.Components.Timebar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TGraphingApp.Components"
+             mc:Ignorable="d" Height="104" Background="White">
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" x:Name="PlayPauseButton" Content="Play" Height="20" Margin="5 2 5 2" Click="PlayPauseButton_Click" />
+            <ProgressBar Grid.Column="1" x:Name="PlayProgress" Value="50" Height="4" Margin="5 2 5 2" 
+                         Background="Black" Foreground="DarkGray"
+                         />
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" VerticalAlignment="Stretch" Margin="2 2 2 2">
+                <TextBlock Grid.Row="0" FontWeight="Bold"
+                           Margin="2 2 2 2">
+                    T Min
+                </TextBlock>
+                <TextBox x:Name="TMin" Grid.Row="1" HorizontalAlignment="Stretch"
+                         Text="{Binding TMin, UpdateSourceTrigger=PropertyChanged,StringFormat={}{0:0.00}}"
+                         TextChanged="DoNoteChange_TextChanged"
+                         Margin="2 2 2 2" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" VerticalAlignment="Stretch" Margin="2 2 2 2">
+                <TextBlock Grid.Row="0" FontWeight="Bold"
+                           Margin="2 2 2 2">
+                    T-Step
+                </TextBlock>
+                <TextBox x:Name="TStep" Grid.Row="1" HorizontalAlignment="Stretch" 
+                         Text="{Binding TStep, UpdateSourceTrigger=PropertyChanged,StringFormat={}{0:0.00}}"
+                         TextChanged="DoNoteChange_TextChanged"
+                         Margin="2 2 2 2" />
+            </StackPanel>
+            <StackPanel Grid.Column="2" VerticalAlignment="Stretch" Margin="2 2 2 2">
+                <TextBlock Grid.Row="0" FontWeight="Bold"
+                           Margin="2 2 2 2">
+                    T-Render Step
+                </TextBlock>
+                <TextBox x:Name="TRenderStep" Grid.Row="1" HorizontalAlignment="Stretch" 
+                         Text="{Binding TRenderStep, UpdateSourceTrigger=PropertyChanged,StringFormat={}{0:0.00}}"
+                         TextChanged="DoNoteChange_TextChanged"
+                         Margin="2 2 2 2" />
+            </StackPanel>
+            <StackPanel Grid.Column="3" VerticalAlignment="Stretch" Margin="2 2 2 2">
+                <TextBlock Grid.Row="0"  FontWeight="Bold"
+                           Margin="2 2 2 2">
+                    T-Max
+                </TextBlock>
+                <TextBox x:Name="TMax" Grid.Row="1" HorizontalAlignment="Stretch" 
+                         Text="{Binding TMax, UpdateSourceTrigger=PropertyChanged,StringFormat={}{0:0.00}}"
+                         TextChanged="DoNoteChange_TextChanged"
+                         Margin="2 2 2 2" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

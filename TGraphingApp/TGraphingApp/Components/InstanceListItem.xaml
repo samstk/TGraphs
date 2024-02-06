@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TGraphingApp.Components"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:models="clr-namespace:TGraphingApp.Models"
              mc:Ignorable="d">
     <Grid HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
@@ -21,9 +23,83 @@
                          Margin="2 2 2 2" />
             <TextBlock Grid.Row="0" HorizontalAlignment="Stretch" FontWeight="Bold"
                            Margin="2 2 2 2">
+                    Plot Design &amp; Thickness
+            </TextBlock>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox Grid.Column="0" Margin="2 2 2 2"
+                      SelectedValue="{Binding DesignPlotType, UpdateSourceTrigger=PropertyChanged}"
+                      SelectionChanged="Design_TextChanged">
+                    <ComboBox.ItemsSource>
+                        <x:Array Type="{x:Type models:InstancePlotType}">
+                            <models:InstancePlotType>SolidLine</models:InstancePlotType>
+                            <models:InstancePlotType>DottedLine</models:InstancePlotType>
+                            <models:InstancePlotType>Points</models:InstancePlotType>
+                        </x:Array>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+                <ComboBox Grid.Column="1" Width="40"  Margin="2 2 2 2"
+                      SelectedValue="{Binding DesignPlotSize, UpdateSourceTrigger=PropertyChanged}"
+                      SelectionChanged="Design_TextChanged">
+                    <ComboBox.ItemsSource>
+                        <x:Array Type="{x:Type sys:Int32}">
+                            <sys:Int32>1</sys:Int32>
+                            <sys:Int32>2</sys:Int32>
+                            <sys:Int32>3</sys:Int32>
+                            <sys:Int32>4</sys:Int32>
+                            <sys:Int32>5</sys:Int32>
+                        </x:Array>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+                <Button Grid.Column="2" x:Name="PlotColor" Click="PlotColor_Click" Background="White" Width="20" Height="20"  Margin="2 2 2 2"></Button>
+            </Grid>
+            <TextBlock Grid.Row="0" HorizontalAlignment="Stretch" FontWeight="Bold"
+                           Margin="2 2 2 2">
+                    Cursor Design &amp; Size
+            </TextBlock>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox Grid.Column="0"  Margin="2 2 2 2"
+                      SelectedValue="{Binding DesignCursorType, UpdateSourceTrigger=PropertyChanged}"
+                      SelectionChanged="Design_TextChanged">
+                    <ComboBox.ItemsSource>
+                        <x:Array Type="{x:Type models:InstanceCursorType}">
+                            <models:InstanceCursorType>Circle</models:InstanceCursorType>
+                            <models:InstanceCursorType>Box</models:InstanceCursorType>
+                        </x:Array>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+                <ComboBox Grid.Column="1" Width="40"  Margin="2 2 2 2"
+                      SelectedValue="{Binding DesignCursorSize, UpdateSourceTrigger=PropertyChanged}"
+                      SelectionChanged="Design_TextChanged">
+                    <ComboBox.ItemsSource>
+                        <x:Array Type="{x:Type sys:Int32}">
+                            <sys:Int32>2</sys:Int32>
+                            <sys:Int32>4</sys:Int32>
+                            <sys:Int32>6</sys:Int32>
+                            <sys:Int32>8</sys:Int32>
+                            <sys:Int32>10</sys:Int32>
+                            <sys:Int32>12</sys:Int32>
+                            <sys:Int32>14</sys:Int32>
+                            <sys:Int32>16</sys:Int32>
+                            <sys:Int32>18</sys:Int32>
+                            <sys:Int32>20</sys:Int32>
+                        </x:Array>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+            </Grid>
+            <TextBlock Grid.Row="0" HorizontalAlignment="Stretch" FontWeight="Bold"
+                           Margin="2 2 2 2">
                     Expression f(t) =
             </TextBlock>
-            <TextBox x:Name="InstanceExpression" Grid.Row="1" HorizontalAlignment="Stretch" 
+            <TextBox x:Name="InstanceExpression" Grid.Row="1" HorizontalAlignment="Stretch" AcceptsReturn="True"
                          Text="{Binding Expression, UpdateSourceTrigger=PropertyChanged}"
                          TextChanged="InstanceExpression_TextChanged"
                          Margin="2 2 2 2" Height="64" />

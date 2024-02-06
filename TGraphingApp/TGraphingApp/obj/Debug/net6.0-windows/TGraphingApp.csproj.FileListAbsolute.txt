@@ -59,3 +59,5 @@ C:\Users\samst\OneDrive\Documents\0. Projects\TGraphs\TGraphingApp\TGraphingApp\
 C:\Users\samst\OneDrive\Documents\0. Projects\TGraphs\TGraphingApp\TGraphingApp\obj\Debug\net6.0-windows\Components\InstanceListItem.g.cs
 C:\Users\samst\OneDrive\Documents\0. Projects\TGraphs\TGraphingApp\TGraphingApp\obj\Debug\net6.0-windows\Components\InstanceList.baml
 C:\Users\samst\OneDrive\Documents\0. Projects\TGraphs\TGraphingApp\TGraphingApp\obj\Debug\net6.0-windows\Components\InstanceListItem.baml
+C:\Users\samst\OneDrive\Documents\0. Projects\TGraphs\TGraphingApp\TGraphingApp\obj\Debug\net6.0-windows\Components\Timebar.g.cs
+C:\Users\samst\OneDrive\Documents\0. Projects\TGraphs\TGraphingApp\TGraphingApp\obj\Debug\net6.0-windows\Components\Timebar.baml

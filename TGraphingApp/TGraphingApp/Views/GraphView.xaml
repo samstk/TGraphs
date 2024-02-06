@@ -4,9 +4,16 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TGraphingApp.Views"
+      xmlns:components="clr-namespace:TGraphingApp.Components"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
              VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-
-    <Canvas x:Name="GraphCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ClipToBounds="True" />
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Canvas Grid.Row="0" x:Name="GraphCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ClipToBounds="True" />
+        <components:Timebar Grid.Row="1" x:Name="Timebar" />
+    </Grid>
 </UserControl>

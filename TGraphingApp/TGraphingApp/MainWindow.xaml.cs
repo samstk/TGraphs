@@ -62,12 +62,18 @@ namespace TGraphingApp
             DataContext = null;
             DataContext = this;
             ViewScene.RefreshDataContext(CurrentScene);
+            RefreshTimeBar();
             RefreshGraph();
         }
 
         public void RefreshGraph()
         {
             ViewGraph.Refresh(CurrentScene);
+        }
+
+        public void RefreshTimeBar()
+        {
+            ViewGraph.Timebar.RefreshDataContext(CurrentScene);
         }
 
 

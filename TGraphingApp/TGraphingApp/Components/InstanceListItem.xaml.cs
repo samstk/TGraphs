@@ -39,6 +39,13 @@ namespace TGraphingApp.Components
         public InstanceListItem()
         {
             InitializeComponent();
+            this.DataContextChanged += InstanceListItem_DataContextChanged;
+        }
+
+        private void InstanceListItem_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (Instance == null) return; // Invalid instance
+            PlotColor.Background = Instance.DesignFill;
         }
 
         private void InstanceName_TextChanged(object sender, TextChangedEventArgs e)
@@ -62,6 +69,17 @@ namespace TGraphingApp.Components
             MainWindow.App.RefreshGraph();
         }
 
+        private void Design_TextChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Instance == null) return; // Invalid instance
+
+            if (Scene == null) return; // Invalid scene
+
+            Scene.IsSaved = false;
+            MainWindow.App.RefreshTrivia();
+            MainWindow.App.RefreshGraph();
+        }
+
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (Scene == null || Instance == null) return; // Invalid references
@@ -72,6 +90,26 @@ namespace TGraphingApp.Components
             MainWindow.App.RefreshTrivia();
 
             InstanceList?.RefreshDataContext(Scene.Instances);
+        }
+
+        private void PlotColor_Click(object sender, RoutedEventArgs e)
+        {
+            if (Instance == null) return; // Invalid instance.
+            if (Scene == null) return; // Invalid scene
+
+           
+            System.Windows.Forms.ColorDialog pickColorDialog = new System.Windows.Forms.ColorDialog();
+            pickColorDialog.Color = Instance.DesignColor;
+            pickColorDialog.SolidColorOnly = true;
+
+            if (pickColorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                Instance.DesignColor = pickColorDialog.Color;
+
+            PlotColor.Background = Instance.DesignFill;
+
+            Scene.IsSaved = false;
+            MainWindow.App.RefreshTrivia();
+            MainWindow.App.RefreshGraph();
         }
     }
 }
