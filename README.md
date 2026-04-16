@@ -3,7 +3,7 @@
 A simple plotting / simulation program using C# and WPF and can be used as a sandbox for game paths (such as rotating around an origin).
 
 ## Progress
-The program is nearly completed, however current code can be used as a proof-of-concept.
+The program was nearly completed, however current code can be used as a proof-of-concept. No work is being done on this project and will be archived.
 
 ## Definitions
 ### T-Value
